@@ -8,7 +8,15 @@ export const register = async (req, res) => {
   userData.password = hashedPass;
   const user = new User(userData);
   await user.save();
-  res.send("SuccessFully Done");
+  res.status(201).json({
+    success: true,
+    message: "User Registered Successfully",
+    data: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    },
+  });
 };
 
 export const login = async (req, res) => {
@@ -25,7 +33,18 @@ export const login = async (req, res) => {
   const token = jwt.sign({ id: findEmail._id }, process.env.JWT_SECRET, {
     expiresIn: "5m",
   });
-  res.send(token);
+  return res.status(200).json({
+    success: true,
+    message: "Login successful",
+    data: {
+      token,
+      user: {
+        id: findEmail._id,
+        name: findEmail.name,
+        email: findEmail.email,
+      },
+    },
+  });
 
   //   return res.status(200).send({ message: `Welcome ${findEmail.name}` });
 };
