@@ -1,24 +1,29 @@
 import mongoose from "mongoose";
 
-const Taskschema = mongoose.Schema({
-  taskName: {
-    type: String,
-    required: true,
+const Taskschema = mongoose.Schema(
+  {
+    taskName: {
+      type: String,
+      required: true,
+    },
+    done: {
+      type: Boolean,
+      default: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  done: {
-    type: Boolean,
-    default: false,
+  {
+    timestamps: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-});
-
+);
+Taskschema.index({ user: 1, createdAt: -1 });
 const Task = mongoose.model("Tasks", Taskschema);
 export default Task;
