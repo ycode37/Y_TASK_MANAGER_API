@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AppError } from "../utils/AppError.js";
 
 export const register = async (req, res) => {
   const userData = req.body;
@@ -47,4 +48,13 @@ export const login = async (req, res) => {
   });
 
   //   return res.status(200).send({ message: `Welcome ${findEmail.name}` });
+};
+
+export const getMe = async (req, res, next) => {
+  const dataId = req.userId;
+  const dataUser = await User.findById(dataId);
+  if (!dataUser) {
+    return next(new AppError("User No Longer Exists", 404));
+  }
+  res.send(dataUser.name);
 };

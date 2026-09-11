@@ -7,6 +7,12 @@ export const errorHandler = (err, req, res, next) => {
       errors: err.errors,
     });
   }
+  if (err.statusCode) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+    });
+  }
 
   if (err.name === "CastError") {
     return res.status(400).json({
