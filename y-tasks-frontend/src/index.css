@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  /* -- Palette: ink on paper, with three functional accents -- */
+  --color-paper: #fbfaf7;
+  --color-paper-dim: #f3f1ea;
+  --color-ink: #1a1d23;
+  --color-ink-soft: #6b7078;
+  --color-ink-faint: #a8acb2;
+  --color-line: #e3e0d8;
+  --color-line-strong: #d3cfc3;
+
+  --color-cobalt: #2f4a73;
+  --color-cobalt-dim: #eef2f7;
+  --color-moss: #4c6b52;
+  --color-moss-dim: #ecf1ec;
+  --color-rust: #b3492c;
+  --color-rust-dim: #fbeee9;
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+}
+
+::selection {
+  background-color: var(--color-cobalt);
+  color: var(--color-paper);
+}
+
+/* Visible keyboard focus everywhere, styled to match the ink/underline language
+   instead of the browser default ring. */
+:focus-visible {
+  outline: 2px solid var(--color-cobalt);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---- Hero motion: the checkbox "crossing off" moment ---- */
+
+.check-circle {
+  transition: stroke 0.25s ease, fill 0.25s ease;
+}
+
+.check-mark {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  transition: stroke-dashoffset 0.28s cubic-bezier(0.65, 0, 0.35, 1) 0.05s;
+}
+
+.task-row[data-done="true"] .check-mark {
+  stroke-dashoffset: 0;
+}
+
+.strike-line {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: 0%;
+  background-color: var(--color-ink-soft);
+  transition: width 0.35s cubic-bezier(0.65, 0, 0.35, 1) 0.05s;
+}
+
+.task-row[data-done="true"] .strike-line {
+  width: 100%;
+}
+
+/* ---- Shimmer for skeleton loading rows ---- */
+
+@keyframes shimmer {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-paper-dim) 25%,
+    #ebe8e0 37%,
+    var(--color-paper-dim) 63%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
