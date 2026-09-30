@@ -17,7 +17,7 @@ app.use(helmet());
 // Helmet is Express middleware that helps secure an application by setting appropriate HTTP security headers.
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.URL,
   }),
 );
 app.use(express.json());
